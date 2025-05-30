@@ -1,0 +1,4 @@
+# .NET backend gitignore
+
+bin
+obj
