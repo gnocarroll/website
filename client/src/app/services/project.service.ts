@@ -24,8 +24,8 @@ export class ProjectService {
 
   constructor() { }
 
-  updateProjects(userId: number, projectsSignal: WritableSignal<Project[]>) {
-    this.http.get<Project[]>(this.apiUrl.get(
+  getProjects(userId: number) {
+    return this.http.get<Project[]>(this.apiUrl.get(
         `/projects?${Object.keys({userId})[0]}=${userId}`
       ))
       .pipe(
@@ -33,9 +33,6 @@ export class ProjectService {
         catchError(error => {
           throw Error(error)
         })
-      )
-      .subscribe(projects => {
-        projectsSignal.set(projects);
-      });
+      );
   }
 }

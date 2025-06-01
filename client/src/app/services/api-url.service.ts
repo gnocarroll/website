@@ -1,24 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { ReadConfigService } from './read-config.service';
+import { BackendUrlService } from './backend-url.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiUrlService {
-  config = inject(ReadConfigService);
-  apiUrl : string;
+  backendUrl = inject(BackendUrlService);
+  apiUrl : string = this.backendUrl.get("/api");
 
-  constructor() {
-    const apiUrl = this.config.get("ApiUrlHTTP");
+  constructor() {}
 
-    if (apiUrl === null) {
-      console.error("Failed to find API url in config");
-    }
-
-    this.apiUrl = apiUrl ?? "";
-  }
-
-  get(extension: string) : string {
+  get(extension: string = "") : string {
     return this.apiUrl + extension;
   }
 }

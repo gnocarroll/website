@@ -7,13 +7,16 @@ export const routes: Routes = [
     {
         path: '',
         component: UserHomeComponent,
+        title: ''
     },
     {
         path: 'projects',
-        component: ProjectsPageComponent
+        component: ProjectsPageComponent,
+        title: 'Projects'
     },
     {
         path: '**',
-        component: PageNotFoundComponent
+        component: PageNotFoundComponent,
+        title: 'Page Not Found'
     }
 ];

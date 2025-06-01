@@ -1,1 +1,15 @@
 <h1>Projects</h1>
+
+@let 
+@for(project of projects; track project.Id) {
+    <h2 [textContent]="project.Name"></h2>
+    
+    <p [textContent]="project.Description"></p>
+
+    @for(technology of project.Technologies; track technology.Id) {
+        <span
+            style="border: white 1px; padding: 4px"
+            [textContent]="technology.Name"
+        ></span>
+    }
+}

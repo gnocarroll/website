@@ -15,6 +15,7 @@ export interface User {
   providedIn: 'root'
 })
 export class UserService {
+  readonly defaultId = 1;
   private http = inject(HttpClient)
   private config = inject(ReadConfigService);
   private apiUrl = inject(ApiUrlService);
@@ -22,20 +23,17 @@ export class UserService {
   constructor() {
   }
 
-  updateUser(userSignal : WritableSignal<User>) {
-    const id = Number(this.config.get("UserId") ?? "");
+  getUser() {
+    let id = Number(this.config.get("UserId") ?? "");
 
-    if (Number.isNaN(id)) return;
+    if (Number.isNaN(id)) id = this.defaultId;
 
-    this.http.get<User>(this.apiUrl.get(`/user/${id}`))
+    return this.http.get<User>(this.apiUrl.get(`/user/${id}`))
       .pipe(
         retry(3),
         catchError(error => {
           throw Error(error)
         })
-      )
-      .subscribe(user => {
-        userSignal.set(user);
-      });
+      );
   }
 }

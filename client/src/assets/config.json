@@ -1,5 +1,5 @@
 {
-    "BackendUrlHTTPUrlHTTP": "http://localhost:5143",
-    "BackendUrlHTTPUrlHTTPS": "https://localhost:7130",
+    "BackendUrlHTTP": "http://localhost:5143",
+    "BackendUrlHTTPS": "https://localhost:7130",
     "UserId": "1"
 }
