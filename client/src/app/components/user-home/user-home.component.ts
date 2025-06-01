@@ -11,7 +11,7 @@ import { User, UserService } from '../../services/user.service';
 export class UserHomeComponent implements OnInit {
   private userService = inject(UserService);
 
-  user : WritableSignal<User> = signal({
+  user = signal<User>({
     Id: -1,
     FirstName: "",
     LastName: "",

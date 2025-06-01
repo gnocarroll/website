@@ -31,7 +31,7 @@ export class UserService {
       .pipe(
         retry(3),
         catchError(error => {
-          throw Error("Request failed")
+          throw Error(error)
         })
       )
       .subscribe(user => {

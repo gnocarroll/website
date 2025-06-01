@@ -1,11 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, WritableSignal } from '@angular/core';
+import { catchError, retry } from 'rxjs';
+import { ApiUrlService } from './api-url.service';
 
-interface Technology {
+export interface Technology {
   Id: number;
   Name: string;
 }
 
-interface Project {
+export interface Project {
   Id: number;
   Name: string;
   Description: string;
@@ -16,11 +19,23 @@ interface Project {
   providedIn: 'root'
 })
 export class ProjectService {
-  private http = inject(HttpService);
+  private apiUrl = inject(ApiUrlService);
+  private http = inject(HttpClient);
 
   constructor() { }
 
-  updateProjects(userId: number, projects: WritableSignal<Project[]>) {
-    this.http.get<Project[]>
+  updateProjects(userId: number, projectsSignal: WritableSignal<Project[]>) {
+    this.http.get<Project[]>(this.apiUrl.get(
+        `/projects?${Object.keys({userId})[0]}=${userId}`
+      ))
+      .pipe(
+        retry(3),
+        catchError(error => {
+          throw Error(error)
+        })
+      )
+      .subscribe(projects => {
+        projectsSignal.set(projects);
+      });
   }
 }
