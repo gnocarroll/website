@@ -4,19 +4,34 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddControllers();
-
 var MyAllowOrigins = "_myAllowOrigins";
+
+// Want JSON serialization to not modify case
+// (otherwise would do PascalCase -> CamelCase)
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.PropertyNamingPolicy = null;
+});
+builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowOrigins,
+    options.AddPolicy(MyAllowOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200/");
+            policy
+                .AllowAnyMethod()
+                .WithOrigins("http://localhost:4200")
+                .AllowAnyHeader();
         }
     );
 });
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -26,7 +41,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment()) app.UseHttpsRedirection();
+
+app.UseRouting();
 
 app.UseCors(MyAllowOrigins);
 

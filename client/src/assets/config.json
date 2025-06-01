@@ -1,3 +1,5 @@
 {
-    "ApiUrl": "http://localhost:5143"
+    "ApiUrlHTTP": "http://localhost:5143/api",
+    "ApiUrlHTTPS": "https://localhost:7130/api",
+    "UserId": "1"
 }

@@ -4,12 +4,10 @@ namespace website.Server.Models.DTOs;
 
 public class UserDTO
 {
-    public required int Id;
-
-    public required string FirstName;
-    public required string LastName;
-
-    public required string Bio;
+    public required int Id { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string Bio { get; set; }
 
     public static UserDTO FromUser(User user)
     {

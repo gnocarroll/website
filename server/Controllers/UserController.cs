@@ -10,9 +10,7 @@ public class UserController : WebsiteControllerBase
     [Route("all")]
     public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
     {
-        List<User> users = new();
-
-        users.Add(new User { Id = 1, FirstName = "George", LastName = "O'Carroll"});
+        List<User> users = [new User { Id = 1, FirstName = "George", LastName = "O'Carroll" }];
 
         return Ok(from user in users select UserDTO.FromUser(user));
     }
@@ -30,5 +28,11 @@ public class UserController : WebsiteControllerBase
         return Ok(UserDTO.FromUser(
             new User { Id = 1, FirstName = "George", LastName = "O'Carroll" }
         ));
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<UserDTO>> Get(string firstName, string lastName)
+    {
+        return await Get(1);
     }
 }

@@ -1,9 +1,0 @@
-<h1>George O&apos;Carroll</h1>
-
-@if (users.length > 0) {
-  <li>
-    @for(user of users; track user.Id) {
-      <ul textContent="{{ user.LastName }}, {{ user.FirstName }}"></ul>
-    }
-  </li>
-}
